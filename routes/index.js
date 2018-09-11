@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var User= require('../models/user');
+
 // GET   /registration 
 router.get('/register',function (req, res, next){
   // next middle ware to do after the response
@@ -10,7 +12,25 @@ router.get('/register',function (req, res, next){
 
 // POST /registration
 router.post('/register', function(req,res,next){
-   return res.send('User created');
+   // User should Type in fields
+  if (req.body.email && 
+    req.body.name && 
+    req.body.favoriteBook && 
+    req.body.password && 
+    req.body.confirmPassword){
+
+      // Confim that user typed same password twice
+      if (req.body.password !== req.body.confirmPassword){
+        var err= new Error('Password do not match.');
+        err.status=400;
+        return next(err);
+      }
+    }else{
+      // Incase error *(it is forward to middleware)
+      var err= new Error('All Fileds Required.');
+      err.status=400;
+      return next(err);
+    }
    
 });
 
