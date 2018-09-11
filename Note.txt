@@ -1,1 +1,10 @@
 npm i nodemon
+
+# Setup a mongo DB
+Use Mongoose
+
+npm install --save mongoose 
+
+Require it in app.js 
+Models created 
+inside model user.js schema created
