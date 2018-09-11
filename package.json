@@ -5,11 +5,13 @@
   "author": "Treehouse Island, Inc.",
   "private": true,
   "scripts": {
-    "start": "node ./app"
+    "start": "node ./app",
+    "serve":"nodemon app.js"
   },
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.4",
+    "nodemon": "^1.18.4",
     "pug": "^2.0.0-beta2"
   },
   "license": "MIT"
