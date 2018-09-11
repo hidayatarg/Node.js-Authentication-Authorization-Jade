@@ -25,6 +25,27 @@ router.post('/register', function(req,res,next){
         err.status=400;
         return next(err);
       }
+
+      // Create object with form input
+      var userData={
+        email: req.body.email,
+        name: req.body.name,
+        favoriteBook: req.body.favoriteBook,
+        password:req.body.password
+      };
+
+      // Insert it into mango
+      // Use schema 's `create` method to insert document into Mongo
+     User.create(userData, function(error,user){
+       if(error){
+         return next(eror);
+       }
+       else{
+         return res.redirect('/profile');
+       }
+     });
+
+
     }else{
       // Incase error *(it is forward to middleware)
       var err= new Error('All Fileds Required.');

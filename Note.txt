@@ -10,3 +10,12 @@ Models created
 inside model user.js schema created
 
 Adding Data to Database
+
+
+#Mango Codes
+use bookworm - Create Database name bookworm
+show dbs- show list of databases
+list db - show current db
+show collections - Show tables in current db
+db.users().find() - List all the records
+db.users().find().pretty() - List all the records pretty 
