@@ -1,7 +1,18 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose= require('mongoose');
+var session=require('express-session');
+
 var app = express();
+
+// Use sessions for tracking logins
+app.use(session({
+  // Secret key to sign the cookie
+  secret: 'node.js works perfectly great',
+  resave:true,
+  // new not yet modified session
+  saveUninitialized: false
+}));
 
 // Use mongoose to connect the mongoDB
 mongoose.connect("mongodb://localhost:27017/bookworm");

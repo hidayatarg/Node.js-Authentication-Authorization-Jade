@@ -22,3 +22,6 @@ db.users().find().pretty() - List all the records pretty
 db.users().drop - Delete table data
 
 # npm install bcrypt --save
+
+
+#npm install express-session --save
