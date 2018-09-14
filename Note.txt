@@ -28,3 +28,27 @@ db.users().drop - Delete table data
 
 
 Make avaliable the userId avaliable to the application
+
+Middleware is software that sits in the "middle" of other parts 
+of your application -- in other words, it's programming that runs 
+after a request is received but before a response is sent back. 
+
+
+Application level Middleware
+// Use sessions for tracking logins
+app.use(session({
+  // Secret key to sign the cookie
+  secret: 'node.js works perfectly great',
+  resave:true,
+  // new not yet modified session
+  saveUninitialized: false
+}));
+
+Typical Middle ware function accept three argument
+next is a function represent the next middleware
+app.use(function(request, response, next){
+
+
+});
+
+also error handling middleware
