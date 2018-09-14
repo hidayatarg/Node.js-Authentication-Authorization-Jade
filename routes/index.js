@@ -3,18 +3,18 @@ var router = express.Router();
 
 var User= require('../models/user');
 
-const checkAuth = (req, res, next) => {
-User.findOne({email: req.body.email}).then(user => {
-  next()
-})
-}
+// const checkAuth = (req, res, next) => {
+// User.findOne({email: req.body.email}).then(user => {
+//   next()
+// })
+// }
 // GET /login
 router.get('/login', (req,res,next)=>{
     return res.render('login',{title:'Log In'});
 });
 
 //POST /login
-router.post('/login', checkAuth, function (req, res, next) {
+router.post('/login', function (req, res, next) {
   // return res.send('Logged In!');
   // Check the fields
 
