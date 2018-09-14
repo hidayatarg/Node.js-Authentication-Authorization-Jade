@@ -2,24 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose= require('mongoose');
 var session=require('express-session');
+var MongoStore=require('connect-mongo')(session);
 
 var app = express();
 
-// Use sessions for tracking logins
-app.use(session({
-  // Secret key to sign the cookie
-  secret: 'node.js works perfectly great',
-  resave:true,
-  // new not yet modified session
-  saveUninitialized: false
-}));
 
-
-// make user Id Avaliable in templete // Middle ware
-app.use(function(req, res, next){
-  res.locals.currentUser=req.session.userId;
-  next();
-})
 
 // Use mongoose to connect the mongoDB
 mongoose.connect("mongodb://localhost:27017/bookworm");
@@ -27,6 +14,25 @@ var db= mongoose.connection;
 // Mongo error handler
 db.on('error', console.error.bind(console,'connection error:'));
 
+// Use sessions for tracking logins
+app.use(session({
+  // Secret key to sign the cookie
+  secret: 'node.js works perfectly great',
+  resave: true,
+  // new not yet modified session
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+
+}));
+
+
+// make user Id Avaliable in templete // Middle ware
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.session.userId;
+  next();
+});
 
 // parse incoming requests
 app.use(bodyParser.json());

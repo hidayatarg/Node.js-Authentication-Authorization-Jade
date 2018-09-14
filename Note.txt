@@ -56,3 +56,21 @@ because it come in the middle of function
 if i route to the login or register while I am signed
 in it will route me to the profile page
 
+
+Storing session data in RAM is fine for development, 
+but would quickly crash a production server. we will use a MongoDB-based 
+data store for your session variables, which provides a scalable 
+solution for a production server.
+
+npm install connect-mongo --save
+
+place it in app.js
+require it after the session module
+
+change the location of the middleware
+go to mongo db shell
+>show dbs
+>use bookworm
+>show collections
+>db.sessions.find()  //Here you can see the sessions
+//After log out you can find nothing in sessions
