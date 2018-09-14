@@ -52,3 +52,7 @@ app.use(function(request, response, next){
 });
 
 also error handling middleware
+because it come in the middle of function
+if i route to the login or register while I am signed
+in it will route me to the profile page
+

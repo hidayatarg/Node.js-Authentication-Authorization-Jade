@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var User= require('../models/user');
+var mid= require('../middleware');
 
 // const checkAuth = (req, res, next) => {
 // User.findOne({email: req.body.email}).then(user => {
@@ -9,12 +10,12 @@ var User= require('../models/user');
 // })
 // }
 // GET /login
-router.get('/login', (req,res,next)=>{
+router.get('/login', mid.loggedOut, (req, res, next) => {
     return res.render('login',{title:'Log In'});
 });
 
 //POST /login
-router.post('/login', function (req, res, next) {
+router.post('/login',function (req, res, next) {
   // return res.send('Logged In!');
   // Check the fields
 
@@ -81,7 +82,7 @@ router.get('/profile',function(req, res, next){
 
 
 // GET   /registration 
-router.get('/register',function (req, res, next){
+router.get('/register',mid.loggedOut, function (req, res, next){
   // next middle ware to do after the response
  // return res.send('Registration today!');
    return res.render('register', { title:'Sign Up'});
