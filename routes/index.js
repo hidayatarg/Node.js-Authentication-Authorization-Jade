@@ -11,7 +11,32 @@ router.get('/login',(req,res,next)=>{
 
 //POST /login
 router.post('/login',function(req,res,next){
-  return res.send('Logged In!');
+  // return res.send('Logged In!');
+  // Check the fields
+
+  if(req.body.email && req.body.password){
+    // User authentication
+    User.authenticate(req.body.email, req.body.password, function(error, user){
+        // Check false authentication
+        if(error || !user){
+          var err= new Error('Wrong email or password.');
+          err.status=401;
+          return next (err);
+        }
+        else{
+          req.session.userId=user._id;
+          return res.redirect('/profile');
+        }
+
+    });
+  }
+  else{
+    // if empty
+    var err= new Error('Email and Password are required.');
+    err.status=401;
+    return next(err);
+  }
+ 
 });
 
 
@@ -50,9 +75,11 @@ router.post('/register', function(req,res,next){
       // Use schema 's `create` method to insert document into Mongo
      User.create(userData, function(error,user){
        if(error){
-         return next(eror);
+         return next(error);
        }
        else{
+        // once register automatically entered
+         req.session.userId=user._id;
          return res.redirect('/profile');
        }
      });
