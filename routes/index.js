@@ -61,13 +61,13 @@ router.get('/logout',function(req, res, next){
 
 
 // GET /profile
-router.get('/profile',function(req, res, next){
-  // User not signed In
-  if(! req.session.userId){
-    var err = new Error('You are not authorized to view this page.');
-    err.status=401;
-    return next (err);
-  }
+router.get('/profile',mid.requiresLogin,function(req, res, next){
+  // User not signed In (Replaced with middleware)
+  // if(! req.session.userId){
+  //   var err = new Error('You are not authorized to view this page.');
+  //   err.status=401;
+  //   return next (err);
+  // }
 
   User.findById(req.session.userId)
     .exec(function(error, user){
@@ -141,7 +141,7 @@ router.get('/', function(req, res, next) {
 });
 
 // GET /about
-router.get('/about', function(req, res, next) {
+router.get('/about', mid.requiresLogin, function (req, res, next) {
   return res.render('about', { title: 'About' });
 });
 
