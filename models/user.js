@@ -30,14 +30,14 @@ var UserSchema= new mongoose.Schema({
 
 // Login authentication  
 // Authenticate input against database 
-UserSchema.static.authenticate= function (email, password, callback){
-    user.findOne({ email: email})
+UserSchema.statics.authenticate= function (email, password, callback){
+    User.findOne({email: email})
     .exec(function (error, user) {
         // error with query simply return
         if (error){
             return callback(error);
         }
-        else if( !user){
+        else if(!user){
             // No user with supplied email
             var err = new Error ('User not found.');
             err.status=401;
@@ -48,7 +48,7 @@ UserSchema.static.authenticate= function (email, password, callback){
         bcrypt.compare(password, user.password, function(error, result){
             // Pasword match
             if(result===true){
-                return callback(null,user);
+                return callback(null, user);
             }
             else{
                 return callback();

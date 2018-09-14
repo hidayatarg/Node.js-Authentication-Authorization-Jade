@@ -3,20 +3,25 @@ var router = express.Router();
 
 var User= require('../models/user');
 
-
+const checkAuth = (req, res, next) => {
+User.findOne({email: req.body.email}).then(user => {
+  next()
+})
+}
 // GET /login
-router.get('/login',(req,res,next)=>{
+router.get('/login', (req,res,next)=>{
     return res.render('login',{title:'Log In'});
 });
 
 //POST /login
-router.post('/login',function(req,res,next){
+router.post('/login', checkAuth, function (req, res, next) {
   // return res.send('Logged In!');
   // Check the fields
 
   if(req.body.email && req.body.password){
     // User authentication
-    User.authenticate(req.body.email, req.body.password, function(error, user){
+  
+    User.authenticate(req.body.email, req.body.password, function (error, user) {
         // Check false authentication
         if(error || !user){
           var err= new Error('Wrong email or password.');
@@ -37,6 +42,27 @@ router.post('/login',function(req,res,next){
     return next(err);
   }
  
+});
+
+
+// GET /profile
+router.get('/profile',function(req, res, next){
+  // User not signed In
+  if(! req.session.userId){
+    var err = new Error('You are not authorized to view this page.');
+    err.status=401;
+    return next (err);
+  }
+
+  User.findById(req.session.userId)
+    .exec(function(error, user){
+      if(error){
+        return next(error);
+      }
+      else{
+        return res.render('profile',{title:'Profile', name: user.name, favorite: user.favoriteBook});
+      }   
+  });
 });
 
 

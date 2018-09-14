@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app",
-    "serve": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
