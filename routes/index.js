@@ -44,6 +44,20 @@ router.post('/login', function (req, res, next) {
  
 });
 
+// GET /logOut
+router.get('/logout',function(req, res, next){
+    if(req.session){
+      // delete the session
+      req.session.destroy(function(err){
+        if(err){
+          return next(err);
+        }else{
+          return res.redirect('/');
+        }
+      })
+    }
+});
+
 
 // GET /profile
 router.get('/profile',function(req, res, next){
